@@ -1,3 +1,9 @@
+import FormAddFriend from './FormAddFriend';
+import FriendsList from './FriendList';
+import Button from './Button';
+import FormSplitBill from './FormSplitBill';
+import { useState } from 'react';
+
 const initialFriends = [
   {
     id: 118836,
@@ -18,3 +24,25 @@ const initialFriends = [
     balance: 0,
   },
 ];
+
+export default function App() {
+  const [isAddFriendFormOpen, setIsAddFriendFormOpen] = useState(false);
+
+  const handleAddFriendFormButton = () => {
+    setIsAddFriendFormOpen(!isAddFriendFormOpen);
+  };
+
+  return (
+    <div className="app">
+      <div className="sidebar">
+        <FriendsList initialFriends={initialFriends}></FriendsList>
+        {isAddFriendFormOpen && <FormAddFriend></FormAddFriend>}
+        <Button handleButtonClick={handleAddFriendFormButton}>
+          {isAddFriendFormOpen ? 'Close form' : 'Add friend'}
+        </Button>
+      </div>
+
+      <FormSplitBill></FormSplitBill>
+    </div>
+  );
+}
