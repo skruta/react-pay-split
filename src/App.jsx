@@ -27,22 +27,46 @@ const initialFriends = [
 
 export default function App() {
   const [isAddFriendFormOpen, setIsAddFriendFormOpen] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState(null);
+  const [friends, setFriends] = useState(initialFriends);
 
   const handleAddFriendFormButton = () => {
     setIsAddFriendFormOpen(!isAddFriendFormOpen);
   };
 
+  const handleAddFriend = (friendObject) => {
+    setFriends((friends) => [...friends, friendObject]);
+    setIsAddFriendFormOpen(false);
+  };
+
+  const handleSelectFriend = (friend) => {
+    setSelectedFriend((selected) =>
+      selected?.id === friend.id ? null : friend
+    );
+    setIsAddFriendFormOpen(false);
+  };
+
   return (
     <div className="app">
       <div className="sidebar">
-        <FriendsList initialFriends={initialFriends}></FriendsList>
-        {isAddFriendFormOpen && <FormAddFriend></FormAddFriend>}
+        <FriendsList
+          selectedFriend={selectedFriend}
+          friends={friends}
+          onSelection={handleSelectFriend}
+        ></FriendsList>
+
+        {isAddFriendFormOpen && (
+          <FormAddFriend onAddFriend={handleAddFriend}></FormAddFriend>
+        )}
+
         <Button handleButtonClick={handleAddFriendFormButton}>
           {isAddFriendFormOpen ? 'Close form' : 'Add friend'}
         </Button>
       </div>
 
-      <FormSplitBill></FormSplitBill>
+      {selectedFriend && (
+        <FormSplitBill selectedFriend={selectedFriend}></FormSplitBill>
+      )}
     </div>
   );
 }

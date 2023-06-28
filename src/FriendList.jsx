@@ -1,11 +1,15 @@
 import FriendCard from './FriendCard';
 
-export default function FriendsList({ initialFriends }) {
-  const friends = initialFriends;
+export default function FriendsList({ friends, onSelection, selectedFriend }) {
   return (
     <ul>
       {friends.map((friend) => (
-        <FriendCard key={friend.id} friend={friend}></FriendCard>
+        <FriendCard
+          onSelection={onSelection}
+          key={friend.id}
+          friend={friend}
+          selectedFriend={selectedFriend}
+        ></FriendCard>
       ))}
     </ul>
   );

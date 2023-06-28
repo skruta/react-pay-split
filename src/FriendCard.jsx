@@ -1,8 +1,10 @@
 import Button from './Button';
 
-export default function FriendCard({ friend }) {
+export default function FriendCard({ friend, onSelection, selectedFriend }) {
+  const isSelected = selectedFriend?.id === friend.id;
+
   return (
-    <li>
+    <li className={isSelected ? 'selected' : ''}>
       <img src={friend.image} alt={friend.name} />
       <h3>{friend.name}</h3>
 
@@ -22,7 +24,9 @@ export default function FriendCard({ friend }) {
         <p className="red">You and {friend.name} are even</p>
       )}
 
-      <Button>Select</Button>
+      <Button handleButtonClick={() => onSelection(friend)}>
+        {isSelected ? 'Close' : 'Select'}
+      </Button>
     </li>
   );
 }
